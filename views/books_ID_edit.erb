@@ -1,29 +1,21 @@
-<h1>Edit album info for album <%= @album.name %></h1>
+<h1>Edit info for book <%= @book.title %></h1>
 
-<form action='/albums/<%= @album.id() %>' method='post'>
+<form action='/books/<%= @book.id() %>' method='post'>
     <input name='_method' type='hidden' value='patch'>
 
     <label>
-        Album Name
-        <input name='name' type='text' placeholder='<%= @album.name %>'>
+      book title
+        <input name='book_title' type='text' placeholder='<%= @book.title %>'>
     </label>
     <label>
-        Album Year
-        <input name='year' type='text' placeholder='<%= @album.year %>'>
-    </label>
-    <label>
-        Album Genre
-        <input name='genre' type='text' placeholder='<%= @album.genre %>'>
-    </label>
-    <label>
-        Album Artist
-        <input name='artist' type='text' placeholder='<%= @album.artist %>'>
+        Book status
+        <input name='book_status' type='text' placeholder='<%= @book.status %>'>
     </label>
     <button type='submit' class='btn'>Go!</button>
 </form>
 
-<form action='/albums/<%= @album.id() %>' method='post'>
+<form action='/books/<%= @book.id() %>' method='post'>
   <input name='_method' type='hidden' value='delete'>
 
-  <button type='submit'>Delete album</button>
+  <button type='submit'>Delete book</button>
 </form>

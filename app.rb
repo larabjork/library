@@ -18,7 +18,9 @@ get '/books' do
     erb :books
 end
 post '/books' do
-    Book.new(params).save
+    par1 = params[:book_title]
+    par2 = params[:book_status]
+    Book.new({:title => par1, :status => par2}).save
     redirect to '/books'
 end
 
@@ -31,7 +33,9 @@ get '/books/:id' do
     erb :books_ID
 end
 patch '/books/:id' do
-    Book.find(params[:id].to_i).update(params)
+  par1 = params[:book_title]
+  par2 = params[:book_status]
+    Book.find(params[:id].to_i).update({:title => par1, :status => par2})
     redirect to "/books/#{params[:id]}"
 end
 delete '/books/:id' do

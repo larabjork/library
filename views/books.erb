@@ -1,18 +1,15 @@
-<h1>All Sales Vinyl</h1>
+<h3>Available Books</h3>
 
-<h3>Available Records</h3>
-
-<% if @albums.any? %>
+<% if @books.any? %>
 <table style="width:100%">
     <tr>
-        <th>Album Name</th>
-        <th>Artist</th>
-        <th>BUY</th>
+        <th>Book Title</th>
+        <th>Status</th>
     </tr>
-    <% @albums.each do |album| %>
+    <% @books.each do |book| %>
     <tr>
-        <td><a href="/albums/<%= album.id %>"><%= album.name %></a></td>
-        <td><a href="/albums/<%= album.id %>"><%= album.artist %></a></td>
+        <td><a href="/books/<%= book.id %>"><%= book.title %></a></td>
+        <td><a href="/books/<%= book.id %>"><%= book.status == "f" ? " Book is currently available" : "Book is currently checked out" %></a></td>
         <td>
         </td>
     </tr>
@@ -22,9 +19,9 @@
 <p>There are currently no records to display.</p>
 <% end %>
 
-<a href="/albums/new">Add a new album</a>
+<a href="/books/new">Add a new book</a>
 
-<form action="/albums" method='post'>
+<form action="/books" method='post'>
         <label>
             Search
             <input name="search" type="text">

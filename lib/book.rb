@@ -3,7 +3,7 @@ class Book
     def initialize(attributes)
         @title = attributes[:title]
         @status = attributes[:status]
-        @id = attributes[:id]
+        @id = attributes[:id].to_i
     end
     def save
         @id = DB.exec("INSERT INTO books (title, status) VALUES ('#{@title}', '#{@status}') RETURNING id;").first.fetch("id").to_i

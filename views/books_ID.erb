@@ -1,35 +1,35 @@
-<h4>Album Name: <%= @album.name %></h4>
+<h4>Book Title: <%= @book.title %></h4>
 
-<h3>Album Songs</h3>
+<h3>Book Author</h3>
 
-<% if @album.songs %>
+<% if @book.authors %>
 <ul>
-    <% @album.songs.each do |song| %>
-    <li><a href="/albums/<%= @album.id %>/songs/<%= song.id %>"><%= song.name %></a></li>
+    <% @book.authors.each do |author| %>
+    <li><a href="/books/<%= @book.id %>/authors/<%= author.id %>"><%= author.name %></a></li>
     <% end %>
 </ul>
 <% else %>
-<p>There are no songs listed for this album yet.</p>
+<p>There are no authors listed for this book yet.</p>
 <% end %>
 
 <!-- <form id='info'>
     <label class='clicky'>
-        <input name='album_name' type='text' placeholder='<%= @album.name %>'>
-        <h3><%= @album.name %></h3>
+        <input name='book_name' type='text' placeholder='<%= @book.title %>'>
+        <h3><%= @book.title %></h3>
         <img src='/img/edit.png'>
     </label>
 
 </form> -->
 
-<h4>Add a song:</h4>
+<h4>Add a author:</h4>
 
-<form action="/albums/<%= @album.id %>" method="post">
+<form action="/books/<%= @book.id %>" method="post">
     <label>
-        Song name
+        Author name
         <input name='name' type="text">
     </label>
-    <button type="submit">Add song</button>
+    <button type="submit">Add author</button>
 </form>
 
-<p><a href="/albums/<%= @album.id %>/edit">Edit album</a></p>
-<a href="/albums">Return to album list</a>
+<p><a href="/books/<%= @book.id %>/edit">Edit book</a></p>
+<a href="/books">Return to book list</a>
