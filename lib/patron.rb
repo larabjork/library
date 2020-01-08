@@ -24,17 +24,13 @@ class Patron
         end
     end
     def delete
-        DB.exec("DELETE FROM albums_artists WHERE artist_id = #{@id};")
-        DB.exec("DELETE FROM artists WHERE id = #{@id};")
+        DB.exec("DELETE FROM checkouts WHERE patron_id = #{@id};")
+        DB.exec("DELETE FROM patrons WHERE id = #{@id};")
     end
     def books
         DB.exec("SELECT book_id FROM checkouts WHERE patron_id = #{@id};").map do |result|
             book_id = result["book_id"].to_i
             Book.find(book_id)
-            # status = result["status"]
-            # puts status
-            # title = DB.exec("SELECT * FROM books WHERE id = #{book_id};").first['title']
-            # Book.new({title: title, status: status, id: book_id})
         end
     end
     def ==(compare)
@@ -46,11 +42,11 @@ class Patron
         DB.exec("SELECT * FROM patrons;").map { |patron| Patron.new(self.keys_to_sym(patron)) }
     end
     def self.clear
-        DB.exec("DELETE FROM artists *;")
+        DB.exec("DELETE FROM patrons *;")
     end
     def self.find(search_id)
-        attributes = DB.exec("SELECT * FROM artists WHERE id = #{search_id};").first
-        Artist.new(self.keys_to_sym(attributes))
+        attributes = DB.exec("SELECT * FROM patrons WHERE id = #{search_id};").first
+        Patron.new(self.keys_to_sym(attributes))
     end
 
     private

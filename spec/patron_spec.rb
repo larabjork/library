@@ -32,28 +32,28 @@ describe 'Patron' do
             expect(patron.books).to include(book)
         end
     end
-#     describe '#delete' do
-#         it 'deletes an Artist by id and all songs belong to Artist' do
-#             artist = Artist.new({name: 'Cornbread'}).save
-#             artist.delete
-#             expect(Artist.all).not_to include(artist)
-#         end
-#     end
+    describe '#delete' do
+        it 'deletes a patron by id' do
+            patron = Patron.new({name: 'Joe', contact: '1235551234'}).save
+            patron.delete
+            expect(Patron.all).not_to include(patron)
+        end
+    end
     describe '.all' do
         it 'returns a list of all Patrons' do
             expect(Patron.all).to eq([])
         end
     end
-#     describe '.clear' do
-#         it 'clears all Artists' do
-#             Artist.clear
-#             expect(Artist.all).to eq([])
-#         end
-#     end
-#     describe '.find' do
-#         it 'finds an Artist by id' do
-#             artist = Artist.new({name: 'Cornbread'}).save
-#             expect(Artist.find(artist.id)).to eq(artist)
-#         end
-#     end
+    describe '.clear' do
+        it 'clears all patrons' do
+            Patron.clear
+            expect(Patron.all).to eq([])
+        end
+    end
+    describe '.find' do
+        it 'finds a patron by id' do
+            patron = Patron.new({name: 'Joe', contact: '1235551234'}).save
+            expect(Patron.find(patron.id)).to eq(patron)
+        end
+    end
 end

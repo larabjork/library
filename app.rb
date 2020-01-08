@@ -1,103 +1,103 @@
 require 'sinatra'
 require 'sinatra/reloader'
-require './lib/album'
-require './lib/song'
-require './lib/artist'
+require './lib/book'
+require './lib/author'
+require './lib/patron'
 require 'pry'
 require 'pg'
 
-DB = PG.connect({:dbname => "record_store"})
+DB = PG.connect({:dbname => "library"})
 also_reload 'lib/**/*.rb'
 
 get '/' do
-    redirect to '/albums'
+    redirect to '/books'
 end
 
-get '/albums' do
-    @albums = Album.all
-    erb :albums
+get '/books' do
+    @books = Book.all
+    erb :books
 end
-post '/albums' do
-    Album.new(params).save
-    redirect to '/albums'
-end
-
-get '/albums/new' do
-    erb :albums_new
+post '/books' do
+    Book.new(params).save
+    redirect to '/books'
 end
 
-get '/albums/:id' do
-    @album = Album.find(params[:id].to_i)
-    erb :albums_ID
-end
-patch '/albums/:id' do
-    Album.find(params[:id].to_i).update(params)
-    redirect to "/albums/#{params[:id]}"
-end
-delete '/albums/:id' do
-    Album.find(params[:id].to_i).delete
-    redirect to '/albums'
+get '/books/new' do
+    erb :books_new
 end
 
-get '/albums/:id/edit' do
-    @album = Album.find(params[:id])
-    erb :albums_ID_edit
+get '/books/:id' do
+    @book = Book.find(params[:id].to_i)
+    erb :books_ID
+end
+patch '/books/:id' do
+    Book.find(params[:id].to_i).update(params)
+    redirect to "/books/#{params[:id]}"
+end
+delete '/books/:id' do
+    Book.find(params[:id].to_i).delete
+    redirect to '/books'
 end
 
-#////////////////// Songs routes /////////////////////
-post '/albums/:id' do
-    params[:album_id] = params[:id]
-    Song.new(params).save
-    redirect to "/albums/#{params[:id]}"
+get '/books/:id/edit' do
+    @book = Book.find(params[:id])
+    erb :books_ID_edit
 end
 
-get '/albums/:id/songs/:song_id' do
-    @song = Song.find(params[:song_id].to_i)
-    erb :album_ID_song_ID
-end
-patch '/albums/:id/songs/:song_id' do
-    Song.find(params[:song_id].to_i).update(params)
-    redirect to "/albums/#{params[:id]}"
+#////////////////// Authors routes /////////////////////
+post '/books/:id' do
+    params[:book_id] = params[:id]
+    Author.new(params).save
+    redirect to "/books/#{params[:id]}"
 end
 
-delete('/albums/:id/songs/:song_id') do
-    Song.find(params[:song_id].to_i).delete
-    @album = Album.find(params[:id].to_i)
-    erb :albums_ID
+get '/books/:id/authors/:author_id' do
+    @author = Author.find(params[:author_id].to_i)
+    erb :book_ID_author_ID
+end
+patch '/books/:id/author/:author_id' do
+    Author.find(params[:author_id].to_i).update(params)
+    redirect to "/books/#{params[:id]}"
+end
+
+delete('/books/:id/author/:author_id') do
+    Author.find(params[:author_id].to_i).delete
+    @book = Book.find(params[:id].to_i)
+    erb :books_ID
 end
 
 #////////////////// Artist routes /////////////////////
-get '/artists' do
-    @artists = Artist.all
-    erb :artists
+get '/patrons' do
+    @patrons = Patron.all
+    erb :patrons
 end
 
-get '/artists/new' do
-    erb :artists_new
+get '/patrons/new' do
+    erb :patrons_new
 end
-post '/artists' do
-    Artist.new(params).save
-    redirect to '/artists'
-end
-
-get '/artists/:id' do
-    @artist = Artist.find(params[:id].to_i)
-    erb :artists_ID
-end
-post '/artists/:id' do
-    Artist.find(params[:id].to_i).add_album(params[:album_name])
-    redirect to "/artists/#{params[:id]}"
+post '/patrons' do
+    Patron.new(params).save
+    redirect to '/patrons'
 end
 
-get '/artists/:id/edit' do
-    @artist = Artist.find(params[:id])
-    erb :artists_ID_edit
+get '/patrons/:id' do
+    @patron = Patron.find(params[:id].to_i)
+    erb :patrons_ID
 end
-patch '/artists/:id' do
-    Artist.find(params[:id].to_i).update(params)
-    redirect to "/artists/#{params[:id]}"
+post '/patrons/:id' do
+    Patron.find(params[:id].to_i).add_book(params[:book_title])
+    redirect to "/patrons/#{params[:id]}"
 end
-delete '/artists/:id' do
-    Artist.find(params[:id].to_i).delete
-    redirect to '/artists'
+
+get '/patrons/:id/edit' do
+    @patron = Patron.find(params[:id])
+    erb :patrons_ID_edit
+end
+patch '/patrons/:id' do
+    Patron.find(params[:id].to_i).update(params)
+    redirect to "/patrons/#{params[:id]}"
+end
+delete '/patrons/:id' do
+    Patron.find(params[:id].to_i).delete
+    redirect to '/patrons'
 end
