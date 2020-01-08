@@ -1,0 +1,22 @@
+.clicky {
+    display: block;
+}
+.clicky input {
+    position: absolute;
+    opacity: 0;
+}
+.clicky input:focus {
+    opacity: 1;
+}
+.clicky input:focus + h3 {
+    opacity: 0;
+}
+
+.clicky img {
+    display: inline;
+    height: 100%;
+    opacity: 0;
+}
+.clicky:hover img {
+    opacity: 1;
+}

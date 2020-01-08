@@ -1,0 +1,29 @@
+<h1>Edit album info for album <%= @album.name %></h1>
+
+<form action='/albums/<%= @album.id() %>' method='post'>
+    <input name='_method' type='hidden' value='patch'>
+
+    <label>
+        Album Name
+        <input name='name' type='text' placeholder='<%= @album.name %>'>
+    </label>
+    <label>
+        Album Year
+        <input name='year' type='text' placeholder='<%= @album.year %>'>
+    </label>
+    <label>
+        Album Genre
+        <input name='genre' type='text' placeholder='<%= @album.genre %>'>
+    </label>
+    <label>
+        Album Artist
+        <input name='artist' type='text' placeholder='<%= @album.artist %>'>
+    </label>
+    <button type='submit' class='btn'>Go!</button>
+</form>
+
+<form action='/albums/<%= @album.id() %>' method='post'>
+  <input name='_method' type='hidden' value='delete'>
+
+  <button type='submit'>Delete album</button>
+</form>
