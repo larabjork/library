@@ -16,14 +16,14 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -34,126 +34,23 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: albums; Type: TABLE; Schema: public; Owner: Guest
+-- Name: authors; Type: TABLE; Schema: public; Owner: Guest
 --
 
-CREATE TABLE public.albums (
-    id integer NOT NULL,
-    name character varying
-);
-
-
-ALTER TABLE public.albums OWNER TO "Guest";
-
---
--- Name: albums_artists; Type: TABLE; Schema: public; Owner: Guest
---
-
-CREATE TABLE public.albums_artists (
-    id integer NOT NULL,
-    artist_id integer,
-    album_id integer
-);
-
-
-ALTER TABLE public.albums_artists OWNER TO "Guest";
-
---
--- Name: albums_artists_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
---
-
-CREATE SEQUENCE public.albums_artists_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.albums_artists_id_seq OWNER TO "Guest";
-
---
--- Name: albums_artists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
---
-
-ALTER SEQUENCE public.albums_artists_id_seq OWNED BY public.albums_artists.id;
-
-
---
--- Name: albums_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
---
-
-CREATE SEQUENCE public.albums_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.albums_id_seq OWNER TO "Guest";
-
---
--- Name: albums_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
---
-
-ALTER SEQUENCE public.albums_id_seq OWNED BY public.albums.id;
-
-
---
--- Name: artists; Type: TABLE; Schema: public; Owner: Guest
---
-
-CREATE TABLE public.artists (
-    id integer NOT NULL,
-    name character varying
-);
-
-
-ALTER TABLE public.artists OWNER TO "Guest";
-
---
--- Name: artists_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
---
-
-CREATE SEQUENCE public.artists_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.artists_id_seq OWNER TO "Guest";
-
---
--- Name: artists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
---
-
-ALTER SEQUENCE public.artists_id_seq OWNED BY public.artists.id;
-
-
---
--- Name: songs; Type: TABLE; Schema: public; Owner: Guest
---
-
-CREATE TABLE public.songs (
+CREATE TABLE public.authors (
     id integer NOT NULL,
     name character varying,
-    album_id integer
+    book_id integer
 );
 
 
-ALTER TABLE public.songs OWNER TO "Guest";
+ALTER TABLE public.authors OWNER TO "Guest";
 
 --
--- Name: songs_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+-- Name: authors_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
 --
 
-CREATE SEQUENCE public.songs_id_seq
+CREATE SEQUENCE public.authors_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -162,136 +59,255 @@ CREATE SEQUENCE public.songs_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.songs_id_seq OWNER TO "Guest";
+ALTER TABLE public.authors_id_seq OWNER TO "Guest";
 
 --
--- Name: songs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+-- Name: authors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
 --
 
-ALTER SEQUENCE public.songs_id_seq OWNED BY public.songs.id;
-
-
---
--- Name: albums id; Type: DEFAULT; Schema: public; Owner: Guest
---
-
-ALTER TABLE ONLY public.albums ALTER COLUMN id SET DEFAULT nextval('public.albums_id_seq'::regclass);
+ALTER SEQUENCE public.authors_id_seq OWNED BY public.authors.id;
 
 
 --
--- Name: albums_artists id; Type: DEFAULT; Schema: public; Owner: Guest
+-- Name: books; Type: TABLE; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY public.albums_artists ALTER COLUMN id SET DEFAULT nextval('public.albums_artists_id_seq'::regclass);
+CREATE TABLE public.books (
+    id integer NOT NULL,
+    title character varying,
+    status boolean
+);
+
+
+ALTER TABLE public.books OWNER TO "Guest";
+
+--
+-- Name: books_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE public.books_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.books_id_seq OWNER TO "Guest";
+
+--
+-- Name: books_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE public.books_id_seq OWNED BY public.books.id;
 
 
 --
--- Name: artists id; Type: DEFAULT; Schema: public; Owner: Guest
+-- Name: checkouts; Type: TABLE; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY public.artists ALTER COLUMN id SET DEFAULT nextval('public.artists_id_seq'::regclass);
+CREATE TABLE public.checkouts (
+    id integer NOT NULL,
+    book_id integer,
+    patron_id integer,
+    due_date timestamp without time zone
+);
+
+
+ALTER TABLE public.checkouts OWNER TO "Guest";
+
+--
+-- Name: checkouts_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE public.checkouts_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.checkouts_id_seq OWNER TO "Guest";
+
+--
+-- Name: checkouts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE public.checkouts_id_seq OWNED BY public.checkouts.id;
 
 
 --
--- Name: songs id; Type: DEFAULT; Schema: public; Owner: Guest
+-- Name: patrons; Type: TABLE; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY public.songs ALTER COLUMN id SET DEFAULT nextval('public.songs_id_seq'::regclass);
+CREATE TABLE public.patrons (
+    id integer NOT NULL,
+    name character varying,
+    contact character varying
+);
+
+
+ALTER TABLE public.patrons OWNER TO "Guest";
+
+--
+-- Name: patrons_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE public.patrons_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.patrons_id_seq OWNER TO "Guest";
+
+--
+-- Name: patrons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE public.patrons_id_seq OWNED BY public.patrons.id;
 
 
 --
--- Data for Name: albums; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Name: authors id; Type: DEFAULT; Schema: public; Owner: Guest
 --
 
-COPY public.albums (id, name) FROM stdin;
+ALTER TABLE ONLY public.authors ALTER COLUMN id SET DEFAULT nextval('public.authors_id_seq'::regclass);
+
+
+--
+-- Name: books id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY public.books ALTER COLUMN id SET DEFAULT nextval('public.books_id_seq'::regclass);
+
+
+--
+-- Name: checkouts id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY public.checkouts ALTER COLUMN id SET DEFAULT nextval('public.checkouts_id_seq'::regclass);
+
+
+--
+-- Name: patrons id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY public.patrons ALTER COLUMN id SET DEFAULT nextval('public.patrons_id_seq'::regclass);
+
+
+--
+-- Data for Name: authors; Type: TABLE DATA; Schema: public; Owner: Guest
+--
+
+COPY public.authors (id, name, book_id) FROM stdin;
+86	joe Smith	58
 \.
 
 
 --
--- Data for Name: albums_artists; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Data for Name: books; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY public.albums_artists (id, artist_id, album_id) FROM stdin;
+COPY public.books (id, title, status) FROM stdin;
+58	Best Book EVER	f
 \.
 
 
 --
--- Data for Name: artists; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Data for Name: checkouts; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY public.artists (id, name) FROM stdin;
+COPY public.checkouts (id, book_id, patron_id, due_date) FROM stdin;
+1	10	3	\N
+2	23	8	\N
+3	33	13	\N
+4	43	18	\N
+5	54	23	\N
+6	58	30	\N
 \.
 
 
 --
--- Data for Name: songs; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Data for Name: patrons; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY public.songs (id, name, album_id) FROM stdin;
+COPY public.patrons (id, name, contact) FROM stdin;
+26
+27
+28
+29
+30	Billie Jean	1234567890
+31	Erma	0981235132
 \.
 
 
 --
--- Name: albums_artists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+-- Name: authors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('public.albums_artists_id_seq', 1, false);
-
-
---
--- Name: albums_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
---
-
-SELECT pg_catalog.setval('public.albums_id_seq', 1, false);
+SELECT pg_catalog.setval('public.authors_id_seq', 86, true);
 
 
 --
--- Name: artists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+-- Name: books_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('public.artists_id_seq', 1, false);
-
-
---
--- Name: songs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
---
-
-SELECT pg_catalog.setval('public.songs_id_seq', 1, false);
+SELECT pg_catalog.setval('public.books_id_seq', 58, true);
 
 
 --
--- Name: albums_artists albums_artists_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
+-- Name: checkouts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY public.albums_artists
-    ADD CONSTRAINT albums_artists_pkey PRIMARY KEY (id);
-
-
---
--- Name: albums albums_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
---
-
-ALTER TABLE ONLY public.albums
-    ADD CONSTRAINT albums_pkey PRIMARY KEY (id);
+SELECT pg_catalog.setval('public.checkouts_id_seq', 7, true);
 
 
 --
--- Name: artists artists_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
+-- Name: patrons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY public.artists
-    ADD CONSTRAINT artists_pkey PRIMARY KEY (id);
+SELECT pg_catalog.setval('public.patrons_id_seq', 32, true);
 
 
 --
--- Name: songs songs_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
+-- Name: authors authors_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY public.songs
-    ADD CONSTRAINT songs_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.authors
+    ADD CONSTRAINT authors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: books books_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY public.books
+    ADD CONSTRAINT books_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: checkouts checkouts_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY public.checkouts
+    ADD CONSTRAINT checkouts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: patrons patrons_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY public.patrons
+    ADD CONSTRAINT patrons_pkey PRIMARY KEY (id);
 
 
 --
 -- PostgreSQL database dump complete
 --
-
