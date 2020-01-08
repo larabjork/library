@@ -1,57 +1,58 @@
 require 'spec_helper.rb'
 
-describe 'Album' do
+describe 'Book' do
     describe '#==' do
         it 'compares for equality' do
-            album1 = Album.new({name: 'Cornbread'})
-            album2 = Album.new({name: 'Cornbread'})
-            expect(album1 == album2).to eq(true)
+            book1 = Book.new({name: 'Cornbread'})
+            book2 = Book.new({name: 'Cornbread'})
+            expect(book1 == book2).to eq(true)
         end
     end
     describe '#save' do
-        it 'saves an album' do
-            album = Album.new({name: 'Cornbread'}).save
-            expect(Album.all).to include(album)
+        it 'saves a book' do
+            book = Book.new({title: 'Cornbread', status: 'f'}).save
+            expect(Book.all).to include(book)
         end
     end
     describe '#update' do
-        it 'updates an album by id' do
-            album = Album.new({name: 'Cornbard'}).save
-            album.update({name: 'Cornbread'})
-            expect(album.name).to eq('Cornbread')
+        it 'updates a book by id' do
+            book = Book.new({title: 'Cornbard', status: 'f'}).save
+            book.update({title: 'Cornbread', status: 'f'})
+            expect(book.title).to eq('Cornbread')
         end
     end
     describe '#delete' do
-        it 'deletes an album by id and all songs belong to album' do
-            album = Album.new({name: 'Cornbread'}).save
-            song = Song.new({name: 'Naima', album_id: album.id}).save
-            album.delete
-            expect(Album.all).not_to include(album)
-            expect(Song.find(song.id)).to eq(nil)
+        it 'deletes a book by id and all authors belong to the book' do
+            book = Book.new({title: 'Cornbard', status: 'f'}).save
+            author = Author.new({name: 'Naima', book_id: book.id}).save
+            book.delete
+            expect(Book.all).not_to include(book)
+            expect(Author.find(author.id)).to eq(nil)
         end
     end
-    # describe('#songs') do
-    #     it("returns an album's songs") do
-    #         song1 = Song.new("Naima", @album1.id).save
-    #         song2 = Song.new("Cousin Mary", @album1.id).save
-    #         expect(@album1.songs).to(eq([song1, song2]))
-    #     end
-    # end
+    describe('#authors') do
+        it("returns an book's authors") do
+            book1 = Book.new({title: 'Cornbard', status: 'f'}).save
+            author1 = Author.new({name: "Naima", book_id: book1.id}).save
+            author2 = Author.new({name: "Cousin Mary", book_id: book1.id}).save
+            expect(book1.authors).to(eq([author1, author2]))
+        end
+    end
     describe '.all' do
-        it 'returns a list of all albums' do
-            expect(Album.all).to eq([])
+        it 'returns a list of all books' do
+            expect(Book.all).to eq([])
         end
     end
     describe '.clear' do
-        it 'clears all albums' do
-            Album.clear
-            expect(Album.all).to eq([])
+        it 'clears all books' do
+            Book.clear
+            expect(Book.all).to eq([])
         end
     end
     describe '.find' do
-        it 'finds an album by id' do
-            album = Album.new({name: 'Cornbread'}).save
-            expect(Album.find(album.id)).to eq(album)
+        it 'finds an book by id' do
+            book = Book.new({title: 'Cornbard', status: 'f'}).save
+            expect(Book.find(book.id)).to eq(book)
         end
     end
 end

@@ -1,59 +1,59 @@
-class Song
+class Author
     attr_reader :id
-    attr_accessor :name, :album_id
+    attr_accessor :name, :book_id
 
     def initialize(attributes)
         @name = attributes[:name]
-        @album_id = attributes[:album_id].to_i
+        @book_id = attributes[:book_id].to_i
         @id = attributes[:id].to_i
     end
 
     def save
-        @id = DB.exec("INSERT INTO songs (name, album_id) VALUES ('#{@name}', #{@album_id}) RETURNING id;").first.fetch("id").to_i
+        @id = DB.exec("INSERT INTO authors (name, book_id) VALUES ('#{@name}', #{@book_id}) RETURNING id;").first.fetch("id").to_i
         self
     end
     def update(new_attrs)
         @name = new_attrs[:name]
-        @album_id = new_attrs[:album_id]
-        DB.exec("UPDATE songs SET name = '#{@name}' WHERE id = #{@id};")
+        @book_id = new_attrs[:book_id]
+        DB.exec("UPDATE authors SET name = '#{@name}', book_id = #{@book_id}  WHERE id = #{@id};")
     end
     def delete
-        DB.exec("DELETE FROM songs WHERE id = #{@id};")
+        DB.exec("DELETE FROM authors WHERE id = #{@id};")
     end
     def ==(compare)
         return false if (compare.nil?)
-        (@name == compare.name) && (@album_id == compare.album_id)
+        (@name == compare.name) && (@book_id == compare.book_id)
     end
 
     def self.all
-        DB.exec("SELECT * FROM songs;").map do |song|
-            attributes = self.keys_to_sym(song)
-            Song.new(attributes)
+        DB.exec("SELECT * FROM authors;").map do |author|
+            attributes = self.keys_to_sym(author)
+            Author.new(attributes)
         end
     end
     def self.find(search_id)
-        song = DB.exec("SELECT * FROM songs WHERE id = #{search_id};").first
-        return nil if (song.nil?)
-        Song.new(self.keys_to_sym(song))
+        author = DB.exec("SELECT * FROM authors WHERE id = #{search_id};").first
+        return nil if (author.nil?)
+        Author.new(self.keys_to_sym(author))
     end
     def self.clear
-        DB.exec("DELETE FROM songs *;")
+        DB.exec("DELETE FROM authors *;")
     end
-    def self.find_by_album(alb_id)
-        DB.exec("SELECT * FROM songs WHERE album_id = #{alb_id};").map do |song|
-            attributes = self.keys_to_sym(song)
-            Song.new(attributes)
+    def self.find_by_book(book_id)
+        DB.exec("SELECT * FROM authors WHERE book_id = #{book_id};").map do |author|
+            attributes = self.keys_to_sym(author)
+            Author.new(attributes)
         end
     end
 
-    def album
-        Album.find(@album_id)
+    def book
+        Book.find(@book_id)
     end
 
     private
     def self.keys_to_sym(str_hash)
         str_hash.reduce({}) do |acc, (key, val)|
-            acc[key.to_sym] = (['id', 'album_id'].include? key) ? val.to_i : val
+            acc[key.to_sym] = (['id', 'book_id'].include? key) ? val.to_i : val
             acc
         end
     end

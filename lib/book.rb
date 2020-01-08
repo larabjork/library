@@ -1,47 +1,40 @@
-class Album
-    attr_accessor :name, :year, :genre, :artist, :id
+class Book
+    attr_accessor :title, :status, :id
     def initialize(attributes)
-        @name = attributes[:name]
-        # @year = attributes[:year]
-        # @genre = attributes[:genre]
-        # @artist = attributes[:artist]
+        @title = attributes[:title]
+        @status = attributes[:status]
         @id = attributes[:id]
     end
     def save
-        @id = DB.exec("INSERT INTO albums (name) VALUES ('#{@name}') RETURNING id;").first.fetch("id").to_i
+        @id = DB.exec("INSERT INTO books (title, status) VALUES ('#{@title}', '#{@status}') RETURNING id;").first.fetch("id").to_i
         self
     end
     def update(new_attrs)
-        @name = new_attrs[:name]
-        # @year = new_attrs[:year]
-        # @genre = new_attrs[:genre]
-        # @artist = new_attrs[:artist]
-        DB.exec("UPDATE albums SET name = '#{@name}' WHERE id = #{@id};")
-        # DB.exec("UPDATE albums SET year = '#{@year}' WHERE id = #{@id};")
-        # DB.exec("UPDATE albums SET genre = '#{@genre}' WHERE id = #{@id};")
-        # DB.exec("UPDATE albums SET artist = '#{@artist}' WHERE id = #{@id};")
+        @title = new_attrs[:title]
+        @status = new_attrs[:status]
+        DB.exec("UPDATE books SET title = '#{@title}', status = '#{@status}' WHERE id = #{@id};")
     end
     def delete
-        DB.exec("DELETE FROM albums WHERE id = #{@id};")
-        DB.exec("DELETE FROM songs WHERE album_id = #{@id};")
+        DB.exec("DELETE FROM books WHERE id = #{@id};")
+        DB.exec("DELETE FROM authors WHERE book_id = #{@id};")
     end
-    def songs
-      Song.find_by_album(@id)
+    def authors
+      Author.find_by_book(@id)
     end
     def ==(compare)
-        (@name == compare.name) && (@year == compare.year) && (@genre == compare.genre) && (@artist == compare.artist)
+        (@title == compare.title) && (@status == compare.status)
     end
 
     #class methods
     def self.all
-        DB.exec("SELECT * FROM albums;").map { |album| Album.new(self.keys_to_sym(album)) }
+        DB.exec("SELECT * FROM books;").map { |book| Book.new(self.keys_to_sym(book)) }
     end
     def self.clear
-        DB.exec("DELETE FROM albums *;")
+        DB.exec("DELETE FROM books *;")
     end
     def self.find(search_id)
-        attributes = DB.exec("SELECT * FROM albums WHERE id = #{search_id};").first
-        Album.new(self.keys_to_sym(attributes))
+        attributes = DB.exec("SELECT * FROM books WHERE id = #{search_id};").first
+        Book.new(self.keys_to_sym(attributes))
     end
 
     private
