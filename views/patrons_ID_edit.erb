@@ -1,17 +1,21 @@
-<h1>Edit  info for <%= @artist.name %></h1>
+<h1>Edit info for <%= @patron.name %></h1>
 
-<form action='/artists/<%= @artist.id() %>' method='post'>
+<form action='/patrons/<%= @patron.id() %>' method='post'>
     <input name='_method' type='hidden' value='patch'>
 
     <label>
-        Artist Name
-        <input name='name' type='text' placeholder='<%= @artist.name %>'>
+        Patron Name
+        <input name='patron_name' type='text' placeholder='<%= @patron.name %>'>
+    </label>
+    <label>
+        Patron Contact Info
+        <input name='patron_contact' type='text' placeholder='<%= @patron.contact %>'>
     </label>
     <button type='submit'>Go!</button>
 </form>
 
-<form action='/artists/<%= @artist.id() %>' method='post'>
+<form action='/patrons/<%= @patron.id() %>' method='post'>
     <input name='_method' type='hidden' value='delete'>
 
-    <button type='submit'>Delete Artist</button>
+    <button type='submit'>Delete Patron</button>
 </form>

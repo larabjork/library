@@ -59,9 +59,10 @@ get '/books/:id/authors/:author_id' do
     @author = Author.find(params[:author_id].to_i)
     erb :book_ID_author_ID
 end
-patch '/books/:id/author/:author_id' do
-    Author.find(params[:author_id].to_i).update(params)
-    redirect to "/books/#{params[:id]}"
+patch '/books/:id/authors/:author_id' do
+  par1 = params[:author_name]
+  Author.find(params[:author_id].to_i).update({:name => par1})
+  redirect to "/books/#{params[:id]}"
 end
 
 delete('/books/:id/author/:author_id') do
@@ -80,7 +81,9 @@ get '/patrons/new' do
     erb :patrons_new
 end
 post '/patrons' do
-    Patron.new(params).save
+  par1 = params[:patron_name]
+  par2 = params[:patron_contact]
+    Patron.new({:name => par1, :contact => par2}).save
     redirect to '/patrons'
 end
 
@@ -98,7 +101,9 @@ get '/patrons/:id/edit' do
     erb :patrons_ID_edit
 end
 patch '/patrons/:id' do
-    Patron.find(params[:id].to_i).update(params)
+  par1 = params[:patron_name]
+  par2 = params[:patron_contact]
+    Patron.find(params[:id].to_i).update({:name => par1, :contact => par2})
     redirect to "/patrons/#{params[:id]}"
 end
 delete '/patrons/:id' do

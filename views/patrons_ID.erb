@@ -1,24 +1,24 @@
-<h3>Artist Name: <%= @artist.name %></h3>
+<h3>Patron Name: <%= @patron.name %></h3>
 
-<% if @artist.albums.length > 0 %>
+<% if @patron.books.length > 0 %>
 <ul>
-    <% @artist.albums.each do |alb| %>
-    <li><a href="/albums/<%= alb.id %>"><%= alb.name %></a></li>
+    <% @patron.books.each do |book| %>
+    <li><a href="/books/<%= book.id %>"><%= book.title %></a></li>
     <% end %>
 </ul>
 <% else %>
-<p>There are no albums listed for this artist yet.</p>
+<p>There are no books listed for this patron yet.</p>
 <% end %>
 
-<h4>Add an album:</h4>
+<h4>Add an book:</h4>
 
-<form action="/artists/<%= @artist.id %>" method="post">
+<form action="/patrons/<%= @patron.id %>" method="post">
     <label>
-        Album Name
-        <input name='album_name' type="text">
+        Book Title
+        <input name='book_title' type="text">
     </label>
-    <button type="submit">Add Albums</button>
+    <button type="submit">Add Book</button>
 </form>
 
-<p><a href="/artists/<%= @artist.id %>/edit">Edit Artist</a></p>
-<a href="/artists">Return to artist list</a>
+<p><a href="/patrons/<%= @patron.id %>/edit">Edit Patron</a></p>
+<a href="/patrons">Return to patron list</a>

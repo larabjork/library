@@ -17,8 +17,8 @@ describe 'Song' do
     end
     describe '#update' do
         it 'updates an author by id' do
-            author = Author.new({name: 'Naima', book_id: 1}).save
-            author.update({name: 'Mr. P.C.', book_id: 2})
+            author = Author.new({name: 'Naima').save
+            author.update({name: 'Mr. P.C.')
             expect(author.name).to eq('Mr. P.C.')
         end
     end

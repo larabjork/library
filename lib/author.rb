@@ -14,8 +14,7 @@ class Author
     end
     def update(new_attrs)
         @name = new_attrs[:name]
-        @book_id = new_attrs[:book_id]
-        DB.exec("UPDATE authors SET name = '#{@name}', book_id = #{@book_id}  WHERE id = #{@id};")
+        DB.exec("UPDATE authors SET name = '#{@name}' WHERE id = #{@id};")
     end
     def delete
         DB.exec("DELETE FROM authors WHERE id = #{@id};")
