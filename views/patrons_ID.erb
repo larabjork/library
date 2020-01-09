@@ -1,6 +1,7 @@
 <h3>Patron Name: <%= @patron.name %></h3>
 
-<% if @patron.books.length > 0 %>
+<% if @patron.books && @patron.books.length > 0 %>
+
 <ul>
     <% @patron.books.each do |book| %>
     <li><%= book[0].title %>  Due date: <%= book[1] %></li>

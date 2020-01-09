@@ -29,7 +29,7 @@ describe 'Patron' do
             patron = Patron.new({name: 'Joe', contact: '1235551234'}).save
             book = Book.new({title: 'Best Book Ever'}).save
             patron.add_book('Best Book Ever')
-            expect(patron.books).to include(book)
+            expect(patron.books[0][0].title).to eq('Best Book Ever')
         end
     end
     describe '#delete' do
