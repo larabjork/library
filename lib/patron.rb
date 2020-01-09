@@ -32,7 +32,7 @@ class Patron
     DB.exec("SELECT * FROM checkouts WHERE patron_id = #{@id};").map do |result|
       book_id = result["book_id"].to_i
       # due_date = result["due_date"]
-      [Book.find(book_id), result['due_date']]
+      [Book.find(book_id), result['due_date'], result['checkout_date']]
     end
   end
 

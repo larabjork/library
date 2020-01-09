@@ -4,7 +4,7 @@
 
 <ul>
     <% @patron.books.each do |book| %>
-    <li><%= book[0].title %>  Due date: <%= book[1] %></li>
+    <li><%= book[0].title %>  <br> Checkout Date: <%= book[2] %> <br> Due date: <%= book[1] %></li>
     <% end %>
 </ul>
 <% else %>
