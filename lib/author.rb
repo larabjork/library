@@ -16,9 +16,11 @@ class Author
         @name = new_attrs[:name]
         DB.exec("UPDATE authors SET name = '#{@name}' WHERE id = #{@id};")
     end
+
     def delete
         DB.exec("DELETE FROM authors WHERE id = #{@id};")
     end
+    
     def ==(compare)
         return false if (compare.nil?)
         (@name == compare.name) && (@book_id == compare.book_id)

@@ -63,7 +63,7 @@ patch '/books/:id/authors/:author_id' do
   redirect to "/books/#{params[:id]}"
 end
 
-delete('/books/:id/author/:author_id') do
+delete('/books/:id/authors/:author_id') do
     Author.find(params[:author_id].to_i).delete
     @book = Book.find(params[:id].to_i)
     erb :books_ID
