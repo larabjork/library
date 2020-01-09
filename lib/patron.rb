@@ -28,11 +28,21 @@ class Patron
         DB.exec("DELETE FROM patrons WHERE id = #{@id};")
     end
     def books
-        DB.exec("SELECT book_id FROM checkouts WHERE patron_id = #{@id};").map do |result|
+        DB.exec("SELECT * FROM checkouts WHERE patron_id = #{@id};").map do |result|
             book_id = result["book_id"].to_i
-            Book.find(book_id)
-        end
+            # due_date = result["due_date"]
+            [Book.find(book_id), result['due_date']]
     end
+  end
+    # def books
+    #   DB.exec("SELECT books.* FROM  patrons
+    #     JOIN checkouts ON (patrons.id = checkouts.patron_id)
+    #     JOIN books ON (checkouts.book_id = books.id)
+    #     WHERE patron.id = #{@id};").map do |result|
+    #         book_id = result["book_id"].to_i
+    #         due_date = result["due_date"]
+    #         Book.find(book_id)
+    # end
     def ==(compare)
         (@name == compare.name) && (@contact == compare.contact) && (@id == compare.id)
     end

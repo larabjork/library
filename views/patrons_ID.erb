@@ -3,7 +3,7 @@
 <% if @patron.books.length > 0 %>
 <ul>
     <% @patron.books.each do |book| %>
-    <li><a href="/books/<%= book.id %>"><%= book.title %></a></li>
+    <li><%= book[0].title %>  Due date: <%= book[1] %></li>
     <% end %>
 </ul>
 <% else %>
