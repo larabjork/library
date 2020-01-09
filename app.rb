@@ -19,8 +19,7 @@ get '/books' do
 end
 post '/books' do
     par1 = params[:book_title]
-    par2 = params[:book_status]
-    Book.new({:title => par1, :status => par2}).save
+    Book.new({:title => par1}).save
     redirect to '/books'
 end
 
@@ -34,8 +33,7 @@ get '/books/:id' do
 end
 patch '/books/:id' do
   par1 = params[:book_title]
-  par2 = params[:book_status]
-    Book.find(params[:id].to_i).update({:title => par1, :status => par2})
+    Book.find(params[:id].to_i).update({:title => par1})
     redirect to "/books/#{params[:id]}"
 end
 delete '/books/:id' do

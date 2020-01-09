@@ -1,18 +1,16 @@
 class Book
-    attr_accessor :title, :status, :id
+    attr_accessor :title, :id
     def initialize(attributes)
         @title = attributes[:title]
-        @status = attributes[:status]
         @id = attributes[:id].to_i
     end
     def save
-        @id = DB.exec("INSERT INTO books (title, status) VALUES ('#{@title}', '#{@status}') RETURNING id;").first.fetch("id").to_i
+        @id = DB.exec("INSERT INTO books (title) VALUES ('#{@title}') RETURNING id;").first.fetch("id").to_i
         self
     end
     def update(new_attrs)
         @title = new_attrs[:title]
-        @status = new_attrs[:status]
-        DB.exec("UPDATE books SET title = '#{@title}', status = '#{@status}' WHERE id = #{@id};")
+        DB.exec("UPDATE books SET title = '#{@title}' WHERE id = #{@id};")
     end
     def delete
         DB.exec("DELETE FROM books WHERE id = #{@id};")
@@ -22,7 +20,7 @@ class Book
       Author.find_by_book(@id)
     end
     def ==(compare)
-        (@title == compare.title) && (@status == compare.status)
+        (@title == compare.title)
     end
 
     #class methods

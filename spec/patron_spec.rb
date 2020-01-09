@@ -27,7 +27,7 @@ describe 'Patron' do
     describe '#add_book' do
         it 'adds a book to a patron' do
             patron = Patron.new({name: 'Joe', contact: '1235551234'}).save
-            book = Book.new({title: 'Best Book Ever', status: 't'}).save
+            book = Book.new({title: 'Best Book Ever'}).save
             patron.add_book('Best Book Ever')
             expect(patron.books).to include(book)
         end

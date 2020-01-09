@@ -20,7 +20,7 @@ class Patron
     def add_book(book_title)
         book = DB.exec("SELECT * FROM books WHERE lower(title)='#{book_title.downcase}';").first
         unless book.nil?
-            DB.exec("INSERT INTO checkouts (book_id, patron_id) VALUES (#{book['id'].to_i}, #{@id});")
+            DB.exec("INSERT INTO checkouts (book_id, patron_id, due_date, checkout_date, status) VALUES (#{book['id'].to_i}, #{@id}, NOW() + '14 days', NOW(), 'true');")
         end
     end
     def delete

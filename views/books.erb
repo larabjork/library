@@ -4,12 +4,10 @@
 <table style="width:100%">
     <tr>
         <th>Book Title</th>
-        <th>Status</th>
     </tr>
     <% @books.each do |book| %>
     <tr>
         <td><a href="/books/<%= book.id %>"><%= book.title %></a></td>
-        <td><a href="/books/<%= book.id %>"><%= book.status == "f" ? " Book is currently available" : "Book is currently checked out" %></a></td>
         <td>
         </td>
     </tr>
